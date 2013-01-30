@@ -61,7 +61,6 @@ rightWall.image.fill((0,255,0))
 
 world.map = [floor, leftWall, rightWall, roof, wall]
 world.players = [player]
-#world.enemies = [enemy]
 world.crates = [crate]
 world.gravity = 2
 world.mobSpawns = [[100, 100]]

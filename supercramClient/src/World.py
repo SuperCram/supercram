@@ -1,7 +1,7 @@
 '''
 World superclass, represents on-screen level and all contents 
 '''
-
+        
 class World():
     def __init__(self):
         self.map = [] #WorldSprites

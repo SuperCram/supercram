@@ -26,7 +26,7 @@ class Enemy(Entity):
         if self.health <= 0:
 ###############################
             world.enemies.remove(self)
-        
+
 #Call superclass update, returns true if enemy has hit a wall and reverses direction of travel
         if Entity.update(self, world)[0]:
             self.facingRight = not self.facingRight

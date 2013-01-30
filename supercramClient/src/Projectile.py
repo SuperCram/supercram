@@ -110,7 +110,7 @@ class Grenade(Projectile):
             
             if math.fabs(self.momentum[0]) < 0.25:
                 self.momentum[0] = 0
-    
+
     def hitEnemy(self, world):
         self.explode(world)
     

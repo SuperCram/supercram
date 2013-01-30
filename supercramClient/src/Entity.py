@@ -16,7 +16,7 @@ class Entity():
         self.prevRect = pygame.Rect([0,0], (0,0))
     
     def update(self, world):
-        
+   
         if self.gravity:
             self.momentum[1] += world.gravity
 

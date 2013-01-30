@@ -44,7 +44,7 @@ class RocketLauncher(Weapon):
                 world.projectiles.append(Projectile.Rocket(-1, pos))
             self.lastShot = pygame.time.get_ticks()
 class MachineGun(Weapon):
-    #TODO: Random Thingything
+    #TODO: Random Thingy-thing
     
     def __init__(self):
         Weapon.__init__(self)

@@ -59,7 +59,7 @@ class Player(Entity):
             self.momentum[0] = const.playerSpeed
         else:
             self.momentum[0] = 0
-
+            
     #Superclass - updates position, checks collisions
         josh = Entity.update(self, world)
         if self.jumping and josh[1]:
