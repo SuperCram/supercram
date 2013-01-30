@@ -65,13 +65,9 @@ class Player(Entity):
         if self.jumping and josh[1]:
             self.jumping = False
 
-
         if world.multiplayer:
-            pass
-    
-        else:
-    
-                
+            pass   
+        else:                
     #Shooting
             if self.weapon.rapidFire == False:
                 for e in world.eList:

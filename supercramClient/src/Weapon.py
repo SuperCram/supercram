@@ -45,7 +45,7 @@ class RocketLauncher(Weapon):
             self.lastShot = pygame.time.get_ticks()
 class MachineGun(Weapon):
     #TODO: Random Thingy-thing
-    
+
     def __init__(self):
         Weapon.__init__(self)
         self.fireDelay = 150

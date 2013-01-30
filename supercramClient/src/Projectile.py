@@ -107,7 +107,7 @@ class Grenade(Projectile):
                 self.momentum[0] *= 0.75
             if josh[0]:
                 self.momentum[0] = -prevMom[0]*0.75
-            
+
             if math.fabs(self.momentum[0]) < 0.25:
                 self.momentum[0] = 0
 

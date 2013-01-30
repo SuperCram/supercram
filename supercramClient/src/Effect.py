@@ -13,7 +13,7 @@ class Effect():
         self.startTime = startTime
         self.life = 0
 
-####################################
+###################################
 class Explosion(Effect):
     def __init__(self, pos, radius):
         Effect.__init__(self, pos, pygame.time.get_ticks())

@@ -14,7 +14,7 @@ class Entity():
         self.uid = 0
         self.rect = pygame.Rect((0,0), (0,0))
         self.prevRect = pygame.Rect([0,0], (0,0))
-    
+
     def update(self, world):
    
         if self.gravity:

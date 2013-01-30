@@ -68,7 +68,7 @@ world.mobSpawns = [[100, 100]]
 for i in world.drawList:
     for e in i:
         print i.size, i.position
-
+        
 keysDown = []
 enemySpawn = 0
 

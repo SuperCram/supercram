@@ -24,7 +24,7 @@ class Enemy(Entity):
 #Kill if health <= 0
         self.image.fill((255,0,0))
         if self.health <= 0:
-###############################
+##############################
             world.enemies.remove(self)
 
 #Call superclass update, returns true if enemy has hit a wall and reverses direction of travel
