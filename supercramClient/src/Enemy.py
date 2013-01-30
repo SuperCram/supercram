@@ -33,13 +33,13 @@ class Enemy(Entity):
 
 #Select speed, dir based on facingRight and rage
         if self.facingRight and not self.rage:
-            self.momentum[1] = const.enemySpeed
+            self.momentum[0] = const.enemySpeed
         elif self.facingRight:
-            self.momentum[1] = const.rageSpeed
+            self.momentum[0] = const.rageSpeed
         elif not self.facingRight and not self.rage:
-            self.momentum[1] = -const.enemySpeed
+            self.momentum[0] = -const.enemySpeed
         elif not self.facingRight and self.rage:
-            self.momentum[1] = -const.rageSpeed
+            self.momentum[0] = -const.rageSpeed
         else:
-            self.momentum[0] = 0
+            self.momentum[1] = 0
         

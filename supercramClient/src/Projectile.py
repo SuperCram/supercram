@@ -37,7 +37,7 @@ class Bullet(Projectile):
         self.image = pygame.Surface((8,8))
         self.image.fill((255,200,0))
         self.damage = 1
-        self.momentum = [0, 16*direction]
+        self.momentum = [16*direction, 0]
         
 class Rocket(Projectile):
     #Sometimes not created properly
@@ -46,17 +46,17 @@ class Rocket(Projectile):
         self.gravity = False
         self.image = pygame.Surface((32,16))
         self.image.fill((0,0,0))
-        self.momentum = [0, 5*direction]
+        self.momentum = [5*direction, 0]
     def update(self, world):
         if Entity.update(self, world) != (False, False):
             world.projectiles.remove(self)
             world.effects.append(Explosion(self.rect.center, 100))
         else:
-            if self.momentum[1] > 0:
-                self.momentum[1] += 1
-            elif self.momentum[1] < 0:
-                self.momentum[1] -= 1
-#Didn't have internet when I wrote this - seems wrong but I'm tired: 
+            if self.momentum[0] > 0:
+                self.momentum[0] += 1
+            elif self.momentum[0] < 0:
+                self.momentum[0] -= 1
+                
     def hitEnemy(self, world):
         world.projectiles.remove(self)
         world.effects.append(Explosion(self.rect.center, 100))
@@ -68,16 +68,16 @@ class Disk(Projectile):
         self.image = pygame.Surface((self.rect.size))
         self.image.fill((0,0,0))
         self.damage = 10
-        self.momentum = [0, 15*direction]
+        self.momentum = [15*direction, 0]
         self.playerInteract = True
         self.hasBounced = False
         self.enemyImpactDestroy = False
     def update(self, world):
-        prevMomentum = self.momentum[1]
+        prevMomentum = self.momentum[0]
         collisions = Entity.update(self, world)
         if collisions == (True, False):
             if not self.hasBounced:
-                self.momentum[1] = -prevMomentum
+                self.momentum[0] = -prevMomentum
                 self.hasBounced = True
             else:
                 world.projectiles.remove(self)
@@ -89,9 +89,9 @@ class Grenade(Projectile):
     def __init__(self, direction, pos):
         Projectile.__init__(self, pos, (16,16))
         self.image = pygame.Surface((self.rect.size))
-        self.image.fill((0,50,0))
-        self.momentum = [0, 15*direction]
-        self.timer = 4000
+        self.image.fill((0,100,0))
+        self.momentum = [15*direction, 0]
+        self.timer = 1500
         self.impactDestroy = False
         self.creationTime = pygame.time.get_ticks()
     def update(self, world):
@@ -103,13 +103,13 @@ class Grenade(Projectile):
                 prevMom.append(i)
             josh = Projectile.update(self, world)
             if josh[1]:
-                self.momentum[0] = -prevMom[0]*0.75
-                self.momentum[1] *= 0.75
-            if josh[0]:
                 self.momentum[1] = -prevMom[1]*0.75
+                self.momentum[0] *= 0.75
+            if josh[0]:
+                self.momentum[0] = -prevMom[0]*0.75
             
-            if math.fabs(self.momentum[1]) < 0.25:
-                self.momentum[1] = 0
+            if math.fabs(self.momentum[0]) < 0.25:
+                self.momentum[0] = 0
     
     def hitEnemy(self, world):
         self.explode(world)

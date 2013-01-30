@@ -96,7 +96,7 @@ while 1:
             pygame.quit()
             sys.exit()
     
-    if pygame.time.get_ticks() > enemySpawn + 5000:
+    '''if pygame.time.get_ticks() > enemySpawn + 5000:
         print 'Enemy spawned'
         for ms in world.mobSpawns:
             world.enemies.append(Enemy())
@@ -105,7 +105,7 @@ while 1:
             world.enemies[-1].image = pygame.Surface((32,32))
             world.enemies[-1].image.fill((255,0,0))
             world.enemies[-1].health = 5
-        enemySpawn = pygame.time.get_ticks()
+        enemySpawn = pygame.time.get_ticks()'''
 
     for effect in world.effects:
         effect.update(world)

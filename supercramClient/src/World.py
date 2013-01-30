@@ -19,6 +19,7 @@ class World():
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
         self.gravity = 600
         self.size = [0,0]
+        self.multiplayer = False
     def buildRectLs(self):
         rectLs = []
         for ls in self.entList:
