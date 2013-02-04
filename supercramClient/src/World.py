@@ -26,7 +26,7 @@ class World():
             tagMobSpawns.tags.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
         tagCrateSpawns = cereal.TagArray()
         for zone in self.crateSpawnZones:
-            tagCrateSpawns.tags.append(cereal.TagArray([cereal.TagInt(zone.top), cereal.TagInt(zone.left), cereal.TagInt(zone.width), cereal.TagInt(zone.height)]))
+            tagCrateSpawns.tags.append(cereal.TagArray([cereal.TagInt(zone.left), cereal.TagInt(zone.top), cereal.TagInt(zone.width), cereal.TagInt(zone.height)]))
         
         worldTag = cereal.TagMap()
         worldTag.data["spirtes"] = sprites
