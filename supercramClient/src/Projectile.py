@@ -90,7 +90,7 @@ class Grenade(Projectile):
         Projectile.__init__(self, pos, (16,16))
         self.image = pygame.Surface((self.rect.size))
         self.image.fill((0,100,0))
-        self.momentum = [15*direction, yMom]
+        self.momentum = [18*direction, yMom*2]
         self.timer = 1500
         self.impactDestroy = False
         self.creationTime = pygame.time.get_ticks()
@@ -103,10 +103,10 @@ class Grenade(Projectile):
                 prevMom.append(i)
             josh = Projectile.update(self, world)
             if josh[1]:
-                self.momentum[1] = -prevMom[1]*0.75
+                self.momentum[1] = -prevMom[1]*0.6
                 self.momentum[0] *= 0.75
             if josh[0]:
-                self.momentum[0] = -prevMom[0]*0.75
+                self.momentum[0] = -prevMom[0]*0.6
 
             if math.fabs(self.momentum[0]) < 0.25:
                 self.momentum[0] = 0
