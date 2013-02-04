@@ -15,6 +15,7 @@ class Player(Entity):
         self.facingRight = True
         self.jumping= False
         self.jumpStart = 0
+        self.keysDown = []
     def checkOnGround(self, collideList):
         for r in collideList:
             for point in [self.rect.bottomleft, self.rect.midbottom, [self.rect.right-1, self.rect.bottom]]:
@@ -23,21 +24,29 @@ class Player(Entity):
         return False
 
 ####
-    def update(self, world, keysDown):
+    def update(self, world):
 ####
+    
+        for e in world.eList:
+            if e.type == KEYDOWN:
+                if e.key not in self.keysDown:
+                    self.keysDown.append(e.key)
+            elif e.type == KEYUP:
+                if e.key in self.keysDown:
+                    self.keysDown.remove(e.key)
 
     #Check if on ground
         self.onGround = self.checkOnGround(world.map)
        
     #Get Left/Right keys
-        if K_LEFT in keysDown: l = True
+        if K_LEFT in self.keysDown: l = True
         else: l = False
-        if K_RIGHT in keysDown: r = True
+        if K_RIGHT in self.keysDown: r = True
         else: r = False
 
     #Jumping
         #If on ground and jump key hit, start jump
-        if self.onGround and (K_UP in keysDown or K_z in keysDown):
+        if self.onGround and (K_UP in self.keysDown or K_z in self.keysDown):
             self.jumping = True
             self.jumpStart = self.rect.bottom
         if self.jumping:
@@ -45,7 +54,7 @@ class Player(Entity):
             if self.rect.bottom > (self.jumpStart - const.minJump):
                 self.momentum[1] = -const.playerJumpSpeed
         #Check if below max jump height
-            elif self.rect.bottom > (self.jumpStart - const.maxJump) and (K_UP in keysDown or K_z in keysDown):
+            elif self.rect.bottom > (self.jumpStart - const.maxJump) and (K_UP in self.keysDown or K_z in self.keysDown):
                 self.momentum[1] = -const.playerJumpSpeed
             else:
                 self.jumping = False      
@@ -74,7 +83,7 @@ class Player(Entity):
                     if e.type == KEYDOWN and e.key == K_x:
                         self.weapon.shoot(self, world)
             else:
-                if K_x in keysDown:
+                if K_x in self.keysDown:
                     self.weapon.shoot(self, world)
 
     #Check if collided with any enemies

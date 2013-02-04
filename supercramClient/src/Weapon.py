@@ -94,9 +94,9 @@ class GrenadeLauncher(Weapon):
         if self.checkReady():
             if player.facingRight:
                 pos = [player.rect.right, player.rect.centery]
-                world.projectiles.append(Projectile.Grenade(1, pos))
+                world.projectiles.append(Projectile.Grenade(1, pos, player.momentum[1]))
             else:
                 pos = [player.rect.left, player. rect.centery]
-                world.projectiles.append(Projectile.Grenade(-1, pos))
+                world.projectiles.append(Projectile.Grenade(-1, pos, player.momentum[1]))
             self.lastShot = pygame.time.get_ticks()
                 

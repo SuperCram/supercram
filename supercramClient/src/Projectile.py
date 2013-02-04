@@ -86,11 +86,11 @@ class Disk(Projectile):
             world.projectiles.remove(self)
             
 class Grenade(Projectile):
-    def __init__(self, direction, pos):
+    def __init__(self, direction, pos, yMom):
         Projectile.__init__(self, pos, (16,16))
         self.image = pygame.Surface((self.rect.size))
         self.image.fill((0,100,0))
-        self.momentum = [15*direction, 0]
+        self.momentum = [15*direction, yMom]
         self.timer = 1500
         self.impactDestroy = False
         self.creationTime = pygame.time.get_ticks()

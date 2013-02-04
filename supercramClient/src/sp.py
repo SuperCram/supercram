@@ -1,7 +1,6 @@
 from Crate import Crate
 from Enemy import Enemy
 from Player import Player
-#from Weapon import DiskGun
 from World import World
 from WorldSprite import WorldSprite
 from pygame.locals import *
@@ -69,7 +68,6 @@ for i in world.drawList:
     for e in i:
         print i.size, i.position
         
-keysDown = []
 enemySpawn = 0
 
 while 1:
@@ -85,7 +83,7 @@ while 1:
     fpsRect.topleft = [10,10]
     screen.blit(fpsSurf, fpsRect)
     
-    world.eList, keysDown = Util.eventList(keysDown)
+    world.eList = pygame.event.get()
     
     for e in world.eList:
         if e.type == KEYDOWN and e.key == K_ESCAPE:
@@ -95,7 +93,18 @@ while 1:
             pygame.quit()
             sys.exit()
     
-    '''if pygame.time.get_ticks() > enemySpawn + 5000:
+    for e in world.eList:
+        if e.type == KEYDOWN and e.key == K_y:
+            for ms in world.mobSpawns:
+                world.enemies.append(Enemy())
+                world.enemies[-1].rect.size = (32,32)
+                world.enemies[-1].rect.midtop = ms
+                world.enemies[-1].image = pygame.Surface((32,32))
+                world.enemies[-1].image.fill((255,0,0))
+                world.enemies[-1].health = 5
+
+    
+    if pygame.time.get_ticks() > enemySpawn + 5000:
         print 'Enemy spawned'
         for ms in world.mobSpawns:
             world.enemies.append(Enemy())
@@ -104,18 +113,11 @@ while 1:
             world.enemies[-1].image = pygame.Surface((32,32))
             world.enemies[-1].image.fill((255,0,0))
             world.enemies[-1].health = 5
-        enemySpawn = pygame.time.get_ticks()'''
+        enemySpawn = pygame.time.get_ticks()
 
-    for effect in world.effects:
-        effect.update(world)
-    for player in world.players:
-        player.update(world, keysDown)
-    for enemy in world.enemies:
-        enemy.update(world)
-    for proj in world.projectiles:
-        proj.update(world)
-    for crate in world.crates:
-        crate.update(world)
+    for ls in world.entList:
+        for obj in ls:
+            obj.update(world)
         
     #pygame.display.update(world.buildRectLs())
     pygame.display.update()
