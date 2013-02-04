@@ -1,7 +1,7 @@
 '''
 World superclass, represents on-screen level and all contents 
 '''
-import cereal   
+import cereal,WorldSprite,pygame
 class World():
     def toTag(self):
         sprites = []
@@ -26,7 +26,7 @@ class World():
             tagMobSpawns.tags.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
         tagCrateSpawns = cereal.TagArray()
         for zone in self.crateSpawnZones:
-            tagCrateSpawns.tags.append(cereal.TagArray([cereal.TagInt(zone.left), cereal.TagInt(zone.top), cereal.TagInt(zone.width), cereal.TagInt(zone.height)]))
+            tagCrateSpawns.tags.append(cereal.TagArray([cereal.TagInt(zone.top), cereal.TagInt(zone.left), cereal.TagInt(zone.width), cereal.TagInt(zone.height)]))
         
         worldTag = cereal.TagMap()
         worldTag.data["spirtes"] = sprites
@@ -61,6 +61,18 @@ class World():
         self.multiplayer = False
         self.enemySpawnDelay = 4000
         self.lastEnemySpawn = 0
+    def __repr__(self):
+        s = ""
+        s += str(len(self.clips))+"clips "
+        s += str(len(self.triggers))+"triggers "
+        s += str(len(self.backgrounds))+"backgrounds "
+        s += str(len(self.foregrounds))+"foregrounds "
+        s += str(len(self.playerSpawns))+"playerSpawns "
+        s += str(len(self.mobSpawns))+"mobSpawns "
+        s += str(len(self.crateSpawnZones))+"crateSpawnZones "
+        s += str(self.enemySpawnDelay)+"enemySpawnDelay "
+        s += str(self.gravity)+"gravity "
+        return s
     def buildRectLs(self):
         rectLs = []
         for ls in self.entList:
@@ -69,11 +81,60 @@ class World():
                 rectLs.append((e.prevRect.top, e.prevRect.left, e.prevRect.width, e.prevRect.height))
         return rectLs
     def buildDrawList(self):
-        self.drawList = [self.background, self.triggers, self.players, self.enemies, self.effects, self.projectiles, self.crates]
+        self.drawList = [self.map, self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def buildEntList(self):
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def draw(self, screen):
         for ls in self.drawList:
             for e in ls:
                 screen.blit(e.image, e.rect)
+                
+def readWorld(tagMap):
+    world = World()
+    tagMap = tagMap.data
+    tagSpriteArray = tagMap["spirtes"].tags
+    for tagSprite in tagSpriteArray:
+        spr = WorldSprite.tagToSprite(tagSprite)
+        if(spr.background):
+            world.backgrounds.append(spr)
+        else:
+            world.foregrounds.append(spr)
+        if(spr.collisions):
+            world.clips.append(spr)
+        if(spr.trigger):
+            world.triggers.append(spr)
+    tagPlayerSpawns = tagMap["playerSpawns"].tags
+    for tagPlayerSpawn in tagPlayerSpawns:
+        world.playerSpawns.append([tagPlayerSpawn.tags[0].i, tagPlayerSpawn.tags[1].i])
+    
+    tagMobSpawns = tagMap["mobSpawns"].tags
+    for tagMobSpawn in tagMobSpawns:
+        world.mobSpawns.append([tagMobSpawn.tags[0].i, tagMobSpawn.tags[1].i])
+        
+    tagMobSpawns = tagMap["mobSpawns"].tags
+    for tagMobSpawn in tagMobSpawns:
+        world.mobSpawns.append([tagMobSpawn.tags[0].i, tagMobSpawn.tags[1].i])
+        
+    tagCrateSpawnZones = tagMap["crateSpawnPoints"].tags
+    for tagCrateSpawnZone in tagCrateSpawnZones:
+        zoneAr = tagCrateSpawnZone.tags
+        world.crateSpawnZones.append(pygame.Rect(zoneAr[0].i, zoneAr[1].i, zoneAr[2].i, zoneAr[3].i))
+    
+    world.gravity = tagMap["gravity"].float
+    world.enemySpawnDelay = tagMap["enemySpawnDelay"].i
+    return world
+if __name__=="__main__":
+    world = World()
+    world.clips.append(WorldSprite.WorldSprite(1,2,3,4))
+    world.clips[0].background = True
+    world.gravity = 10002
+    world.enemySpawnDelay = 19292
+    print world
+    someTag = world.toTag()
+    newWorld = readWorld(someTag)
+    print newWorld
+
+
+
+
 
