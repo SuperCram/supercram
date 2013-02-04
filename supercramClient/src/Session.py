@@ -1,5 +1,9 @@
 '''
-Created on Feb 4, 2013
-
-@author: Arrggee
+Session Superclass
 '''
+
+class Session():
+    def __init__(self):
+        self.worlds = []
+        self.activeWorldIndex = 0
+        
