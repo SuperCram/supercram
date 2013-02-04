@@ -1,6 +1,6 @@
 from struct import pack,unpack
 class Tag():
-    
+
     def __init__(self):
         self.id = 0
     def read(self, dataStream):
