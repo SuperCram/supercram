@@ -1,33 +1,32 @@
 from struct import pack,unpack
+def readTag(self, dataStream):
+    tagID = dataStream.readByte()
+    if tagID == 1:
+        return TagByte()
+    if tagID == 2:
+        return TagString()
+    elif tagID == 3:
+        return TagInt()
+    elif tagID == 4:
+        return TagBool()
+    elif tagID == 5:
+        return TagFloat()
+    elif tagID == 6:
+        return TagArray()
+    elif tagID == 7:
+        return TagMap()
+    else:
+        raise ValueError
 class Tag():
-    # A commnet
     def __init__(self):
         self.id = 0
     def read(self, dataStream):
         pass
     def write(self, dataStream):
         pass
-    def readTag(self, dataStream):
-        tagID = dataStream.readByte()
-        if tagID == 1:
-            return TagByte()
-        if tagID == 2:
-            return TagString()
-        elif tagID == 3:
-            return TagInt()
-        elif tagID == 4:
-            return TagBool()
-        elif tagID == 5:
-            return TagFloat()
-        elif tagID == 6:
-            return TagArray()
-        elif tagID == 7:
-            return TagMap()
-        else:
-            raise ValueError
 
 class TagByte(Tag):
-    def __init__(self, b):
+    def __init__(self, b=0):
         self.byte = b
         self.id = 1
     def read(self, dataStream):
@@ -36,7 +35,7 @@ class TagByte(Tag):
         dataStream.writeByte(self.byte)
         
 class TagString(Tag):
-    def __init__(self, s):
+    def __init__(self, s=""):
         self.string = s
         self.id = 2
     def read(self, dataStream):
@@ -45,7 +44,7 @@ class TagString(Tag):
         dataStream.writeString()
 
 class TagInt(Tag):
-    def __init(self, i):
+    def __init__(self, i=0):
         self.i = i
         self.id = 3
     def read(self, dataStream):
@@ -54,7 +53,7 @@ class TagInt(Tag):
         dataStream.writeInt(self.i)
 
 class TagBool(Tag):
-    def __init__(self, b):
+    def __init__(self, b=False):
         self.bool = b
         self.id = 4
     def read(self, dataStream):
@@ -63,7 +62,7 @@ class TagBool(Tag):
         dataStream.writeBool(self.bool)
 
 class TagFloat(Tag):
-    def __init__(self, f):
+    def __init__(self, f=0):
         self.float = f
         self.id = 5
     def read(self, dataStream):
@@ -78,7 +77,7 @@ class TagArray(Tag):
     def read(self, dataStream):
         size = dataStream.readInt()
         for i in range(size):
-            newTag = Tag.readTag(dataStream)
+            newTag = readTag(dataStream)
             newTag.read(dataStream)
             self.tags.append(newTag)
     def write(self, dataStream):
@@ -88,14 +87,14 @@ class TagArray(Tag):
             t.write(dataStream)
 
 class TagMap(Tag):
-    def _init__(self, map={}):
+    def __init__(self, map={}):
         self.id = 7
         self.data = map
     def read(self, dataStream):
         tagSize = dataStream.readInt()
         for i in range(tagSize):
             key = dataStream.readString()
-            tag = Tag.readTag(dataStream)
+            tag = readTag(dataStream)
             tag.read(dataStream)
             self.data[key] = tag
     def write(self, dataStream):
