@@ -20,6 +20,8 @@ class World():
         self.gravity = 600
         self.size = [0,0]
         self.multiplayer = False
+        self.enemySpawnDelay = 4000
+        self.lastEnemySpawn = 0
     def buildRectLs(self):
         rectLs = []
         for ls in self.entList:

@@ -67,9 +67,8 @@ world.mobSpawns = [[100, 100]]
 for i in world.drawList:
     for e in i:
         print i.size, i.position
-        
-enemySpawn = 0
 
+enemySpawn = 0
 while 1:
     world.buildDrawList()
     world.buildEntList()
