@@ -1,3 +1,4 @@
+from struct import pack,unpack
 class Tag():
     
     def __init__(self):
@@ -103,3 +104,50 @@ class TagMap(Tag):
             dataStream.writeString(t)
             dataStream.writeByte(self.data[t].id)
             self.data[t].write(dataStream)
+class DataInputStream:
+    def __init__(self, base_stream):
+        self.base_stream = base_stream
+    def readByte(self):
+        return self.base_stream.read(1)
+    def readBytes(self, length):
+        return self.base_stream.read(length)
+    def readChar(self):
+        return self.unpack('b')
+    def readBool(self):
+        return self.unpack('?')
+    def readInt(self):
+        return self.unpack('i', 4)
+    def readFloat(self):
+        return self.unpack('f', 4)
+    def readString(self):
+        length = self.readInt32()
+        return self.unpack(str(length) + 's', length)
+    def readTag(self):
+        return None
+    def unpack(self, fmt, length = 1):
+        return unpack(fmt, self.readBytes(length))[0]
+class DataOutputStream:
+    def __init__(self, base_stream):
+        self.base_stream = base_stream
+    def writeBytes(self, value):
+        self.base_stream.write(value)
+    def writeChar(self, value):
+        ba = bytearray(value.encode('UTF-16LE'))
+        ba.reverse()
+        self.writeBytes(ba)
+    def writeByte(self, value):
+        value = value&255
+        self.base_stream.write(chr(value))
+    def writeBool(self, value):
+        self.pack('?', value)
+    def writeInt(self, value):
+        self.pack('!i', value)
+    def writeFloat(self, value):
+        self.pack('!f', value)
+    def writeString(self, value):
+        length = len(value)
+        self.writeInt(length)
+        for l in range(length):
+            self.writeChar(value[l])
+    def pack(self, fmt, data):
+        return self.writeBytes(pack(fmt, data))
