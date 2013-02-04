@@ -113,7 +113,7 @@ while 1:
             world.enemies[-1].image.fill((255,0,0))
             world.enemies[-1].health = 5
         enemySpawn = pygame.time.get_ticks()
-
+            
     for ls in world.entList:
         for obj in ls:
             obj.update(world)
