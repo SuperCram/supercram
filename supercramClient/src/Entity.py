@@ -27,7 +27,7 @@ class Entity():
             #Horizontal
             hitH = False
             self.rect.left = (self.rect.left + self.momentum[0])
-            for r in world.map:
+            for r in world.clip:
                 if self.rect.colliderect(r):
                     hitH = True
                     if self.momentum[0] > 0: #moving right
@@ -40,7 +40,7 @@ class Entity():
             #Vertical
             hitV = False
             self.rect.top = (self.rect.top + self.momentum[1])
-            for r in world.map:
+            for r in world.clip:
                 if self.rect.colliderect(r):
                     hitV = True                
                     if self.momentum[1] > 0: #moving down

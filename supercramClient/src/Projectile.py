@@ -58,7 +58,6 @@ class Rocket(Projectile):
                 self.momentum[0] -= 1
                 
     def hitEnemy(self, world):
-        world.projectiles.remove(self)
         world.effects.append(Explosion(self.rect.center, 100))
         
 class Disk(Projectile):
@@ -115,6 +114,5 @@ class Grenade(Projectile):
         self.explode(world)
     
     def explode(self, world):
-        world.projectiles.remove(self)
         world.effects.append(Explosion(self.rect.center, 100))
         

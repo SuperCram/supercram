@@ -69,7 +69,7 @@ class World():
                 rectLs.append((e.prevRect.top, e.prevRect.left, e.prevRect.width, e.prevRect.height))
         return rectLs
     def buildDrawList(self):
-        self.drawList = [self.map, self.players, self.enemies, self.effects, self.projectiles, self.crates]
+        self.drawList = [self.background, self.triggers, self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def buildEntList(self):
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def draw(self, screen):

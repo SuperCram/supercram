@@ -36,7 +36,7 @@ class Player(Entity):
                     self.keysDown.remove(e.key)
 
     #Check if on ground
-        self.onGround = self.checkOnGround(world.map)
+        self.onGround = self.checkOnGround(world.background)
        
     #Get Left/Right keys
         if K_LEFT in self.keysDown: l = True
@@ -90,14 +90,15 @@ class Player(Entity):
             for enemy in world.enemies:
                 if self.rect.colliderect(enemy.rect):
     ###############################
-                    enemy.rect.topleft = (100, 100)
                     self.rect.topleft = (400, 100)
+                    self.momentum = [0,0]
     
     #Check if collided with any playerIntact projectiles
             for proj in world.projectiles:
                 if proj.playerInteract and self.rect.colliderect(proj.rect):
     ###############################
                     self.rect.topleft = (400, 100)
+                    self.momentum = [0,0]
     
     #Update facing direction
         if self.momentum[0] > 0:

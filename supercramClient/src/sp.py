@@ -58,7 +58,8 @@ rightWall = WorldSprite(world.size[0]-32, 32, 32, world.size[1]-64)
 rightWall.image = pygame.Surface((rightWall.rect.width, rightWall.rect.height))
 rightWall.image.fill((0,255,0))
 
-world.map = [floor, leftWall, rightWall, roof, wall]
+world.background = [floor, leftWall, rightWall, roof, wall]
+world.clip = [floor, leftWall, rightWall, roof, wall]
 world.players = [player]
 world.crates = [crate]
 world.gravity = 2

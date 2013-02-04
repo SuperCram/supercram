@@ -12,7 +12,7 @@ class WorldSprite():
         self.rect = pygame.Rect(left, top, width, height)
         self.params = {}
     def toTag(self):
-        sprite = cereal.TagMap()
+        sprite = {}
         sprite["aabb"] = cereal.TagArray([cereal.TagInt(self.rect.left), cereal.TagInt(self.rect.top), cereal.TagInt(self.rect.width), cereal.TagInt(self.rect.height)])
         sprite["collisions"] = cereal.TagBool(self.collisions)
         sprite["background"] = cereal.TagBool(self.background)
@@ -20,5 +20,6 @@ class WorldSprite():
         for param in self.params:
             tagParams[param] = cereal.TagString(self.params[param])
         sprite["params"] = cereal.TagMap(tagParams)
+        sprite = cereal.TagMap(sprite)
         return sprite
         

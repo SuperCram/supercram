@@ -19,6 +19,7 @@ class Enemy(Entity):
         for proj in world.projectiles:
             if self.rect.colliderect(proj.rect):
                 proj.hitEnemy(world)
+                world.projectiles.remove(proj)
                 self.health -= proj.damage
 
 #Kill if health <= 0
