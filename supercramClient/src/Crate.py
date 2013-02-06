@@ -8,9 +8,9 @@ class Crate(Entity):
     def __init__(self):
         Entity.__init__(self)
         self.contents = random.choice(const.weapons)
-    def update(self, world):
-        Entity.update(self, world)
-        for p in world.players:
+    def update(self, session):
+        Entity.update(self, session.worlds[session.activeWorld])
+        for p in session.worlds[session.activeWorld].players:
             if self.rect.colliderect(p.rect):
                 p.weapon = self.contents
                 newWep = random.choice(const.weapons)

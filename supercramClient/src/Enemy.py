@@ -13,23 +13,24 @@ class Enemy(Entity):
         self.health = 1
         self.dead = False
         self.facingRight = True
-    def update(self, world):
+    def update(self, session):
         
 #Check if colliding with a projectile ie has been hit, and deals damage accordingly
-        for proj in world.projectiles:
+        for proj in session.worlds[session.activeWorld].projectiles:
             if self.rect.colliderect(proj.rect):
-                proj.hitEnemy(world)
-                world.projectiles.remove(proj)
+                proj.hitEnemy(session.worlds[session.activeWorld])
+                if proj.enemyImpactDestroy:
+                    session.worlds[session.activeWorld].projectiles.remove(proj)
                 self.health -= proj.damage
 
 #Kill if health <= 0
         self.image.fill((255,0,0))
         if self.health <= 0:
 ############################
-            world.enemies.remove(self)
+            session.worlds[session.activeWorld].enemies.remove(self)
 
 #Call superclass update, returns true if enemy has hit a wall and reverses direction of travel
-        if Entity.update(self, world)[0]:
+        if Entity.update(self, session.worlds[session.activeWorld])[0]:
             self.facingRight = not self.facingRight
 
 #Select speed, dir based on facingRight and rage

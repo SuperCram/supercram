@@ -26,11 +26,11 @@ class Explosion(Effect):
         self.damage = 100
         self.startTime = pygame.time.get_ticks()
         self.life = 100
-    def update(self, world):
+    def update(self, session):
         now = pygame.time.get_ticks()
         if now > self.startTime + self.life:
-            world.effects.remove(self)
+            session.worlds[session.activeWorld].effects.remove(self)
         else:
-            for enemy in world.enemies:
+            for enemy in session.worlds[session.activeWorld].enemies:
                 if const.distance(self.pos, enemy.rect.center) < self.radius:
                     enemy.health -= self.damage

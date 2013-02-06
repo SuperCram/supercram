@@ -24,10 +24,10 @@ class Player(Entity):
         return False
 
 ####
-    def update(self, world):
+    def update(self, session):
 ####
     
-        for e in world.eList:
+        for e in session.worlds[session.activeWorld].eList:
             if e.type == KEYDOWN:
                 if e.key not in self.keysDown:
                     self.keysDown.append(e.key)
@@ -36,7 +36,7 @@ class Player(Entity):
                     self.keysDown.remove(e.key)
 
     #Check if on ground
-        self.onGround = self.checkOnGround(world.background)
+        self.onGround = self.checkOnGround(session.worlds[session.activeWorld].clips)
        
     #Get Left/Right keys
         if K_LEFT in self.keysDown: l = True
@@ -51,7 +51,7 @@ class Player(Entity):
             self.jumpStart = self.rect.bottom
         if self.jumping:
         #Check if below min jump height
-            if self.rect.bottom > (self.jumpStart - const.minJump):
+            if self.rect.bottom >= (self.jumpStart - (const.minJump)):
                 self.momentum[1] = -const.playerJumpSpeed
         #Check if below max jump height
             elif self.rect.bottom > (self.jumpStart - const.maxJump) and (K_UP in self.keysDown or K_z in self.keysDown):
@@ -70,31 +70,31 @@ class Player(Entity):
             self.momentum[0] = 0
             
     #Superclass - updates position, checks collisions
-        josh = Entity.update(self, world)
-        if self.jumping and josh[1]:
+        collisions = Entity.update(self, session.worlds[session.activeWorld])
+        if self.jumping and collisions[1]:
             self.jumping = False
 
-        if world.multiplayer:
+        if session.multiplayer:
             pass   
         else:                
     #Shooting
             if self.weapon.rapidFire == False:
-                for e in world.eList:
+                for e in session.worlds[session.activeWorld].eList:
                     if e.type == KEYDOWN and e.key == K_x:
-                        self.weapon.shoot(self, world)
+                        self.weapon.shoot(self, session.worlds[session.activeWorld])
             else:
                 if K_x in self.keysDown:
-                    self.weapon.shoot(self, world)
+                    self.weapon.shoot(self, session.worlds[session.activeWorld])
 
     #Check if collided with any enemies
-            for enemy in world.enemies:
+            for enemy in session.worlds[session.activeWorld].enemies:
                 if self.rect.colliderect(enemy.rect):
     ###############################
                     self.rect.topleft = (400, 100)
                     self.momentum = [0,0]
     
     #Check if collided with any playerIntact projectiles
-            for proj in world.projectiles:
+            for proj in session.worlds[session.activeWorld].projectiles:
                 if proj.playerInteract and self.rect.colliderect(proj.rect):
     ###############################
                     self.rect.topleft = (400, 100)

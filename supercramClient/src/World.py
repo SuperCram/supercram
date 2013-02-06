@@ -15,7 +15,6 @@ class World():
         for worldSprite in self.foregrounds:
             sprites.append(worldSprite.toTag())
         sprites = cereal.TagArray(sprites)
-        
         #Player Spawns
         tagPlayerSpawns = cereal.TagArray()
         for point in self.playerSpawns:
@@ -38,6 +37,12 @@ class World():
         worldTag.data["enemySpawnDelay"] = cereal.TagInt(self.enemySpawnDelay)
         
         return worldTag
+    
+    def saveWorld(self, name):
+        tagMap = self.toTag()
+        fileOut = open(name + '.scw', 'wb')
+        tagMap.write(fileOut)
+        fileOut.close()
         
     def __init__(self):
         self.clips = []
@@ -57,8 +62,6 @@ class World():
         self.eList = []
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
         self.gravity = 600
-        self.size = [0,0]
-        self.multiplayer = False
         self.enemySpawnDelay = 4000
         self.lastEnemySpawn = 0
     def __repr__(self):
@@ -81,7 +84,7 @@ class World():
                 rectLs.append((e.prevRect.top, e.prevRect.left, e.prevRect.width, e.prevRect.height))
         return rectLs
     def buildDrawList(self):
-        self.drawList = [self.map, self.players, self.enemies, self.effects, self.projectiles, self.crates]
+        self.drawList = [self.backgrounds, self.players, self.enemies, self.effects, self.projectiles, self.crates, self.foregrounds]
     def buildEntList(self):
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def draw(self, screen):

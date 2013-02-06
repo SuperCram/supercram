@@ -18,15 +18,15 @@ class Projectile(Entity):
         self.creationTime = 0
         self.impactDestroy = True
         self.enemyImpactDestroy = True #Projectile is destroyed on contatct with enemies
-    def update(self, world):    
+    def update(self, session):    
         if self.impactDestroy:
-            collisions = Entity.update(self, world)
+            collisions = Entity.update(self, session.worlds[session.activeWorld])
             for i in collisions:
                 if i:
-                    world.projectiles.remove(self)
+                    session.worlds[session.activeWorld].projectiles.remove(self)
             return collisions
         else:
-            return Entity.update(self, world)
+            return Entity.update(self, session.worlds[session.activeWorld])
     def hitEnemy(self, world):
         pass
 
@@ -47,19 +47,18 @@ class Rocket(Projectile):
         self.image = pygame.Surface((32,16))
         self.image.fill((0,0,0))
         self.momentum = [5*direction, 0]
-    def update(self, world):
-        if Entity.update(self, world) != (False, False):
-            world.projectiles.remove(self)
-            world.effects.append(Explosion(self.rect.center, 100))
+    def update(self, session):
+        if Entity.update(self, session.worlds[session.activeWorld]) != (False, False):
+            session.worlds[session.activeWorld].projectiles.remove(self)
+            session.worlds[session.activeWorld].effects.append(Explosion(self.rect.center, 100))
         else:
             if self.momentum[0] > 0:
                 self.momentum[0] += 1
             elif self.momentum[0] < 0:
                 self.momentum[0] -= 1
-                
     def hitEnemy(self, world):
         world.effects.append(Explosion(self.rect.center, 100))
-        
+
 class Disk(Projectile):
     def __init__(self, direction, pos):
         Projectile.__init__(self, pos, (32, 8))
@@ -71,42 +70,42 @@ class Disk(Projectile):
         self.playerInteract = True
         self.hasBounced = False
         self.enemyImpactDestroy = False
-    def update(self, world):
+    def update(self, session):
         prevMomentum = self.momentum[0]
-        collisions = Entity.update(self, world)
+        collisions = Entity.update(self, session.worlds[session.activeWorld])
         if collisions == (True, False):
             if not self.hasBounced:
                 self.momentum[0] = -prevMomentum
                 self.hasBounced = True
             else:
-                world.projectiles.remove(self)
+                session.worlds[session.activeWorld].projectiles.remove(self)
         elif collisions != (False, False):
             
-            world.projectiles.remove(self)
+            session.worlds[session.activeWorld].projectiles.remove(self)
             
 class Grenade(Projectile):
     def __init__(self, direction, pos, yMom):
         Projectile.__init__(self, pos, (16,16))
         self.image = pygame.Surface((self.rect.size))
         self.image.fill((0,100,0))
-        self.momentum = [18*direction, yMom*2]
+        self.momentum = [18*direction, yMom*1.5]
         self.timer = 1500
         self.impactDestroy = False
         self.creationTime = pygame.time.get_ticks()
-    def update(self, world):
+    def update(self, session):
         if pygame.time.get_ticks() > self.creationTime + self.timer:
-            self.explode(world)
+            self.explode(session.worlds[session.activeWorld])
+            session.worlds[session.activeWorld].projectiles.remove(self)
         else:
             prevMom = []
             for i in self.momentum:
                 prevMom.append(i)
-            josh = Projectile.update(self, world)
-            if josh[1]:
+            collisions = Projectile.update(self, session.worlds[session.activeWorld])
+            if collisions[1]:
                 self.momentum[1] = -prevMom[1]*0.6
                 self.momentum[0] *= 0.75
-            if josh[0]:
+            if collisions[0]:
                 self.momentum[0] = -prevMom[0]*0.6
-
             if math.fabs(self.momentum[0]) < 0.25:
                 self.momentum[0] = 0
 

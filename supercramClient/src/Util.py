@@ -8,8 +8,3 @@ def init(a):
 
     return screen
 
-def saveWorld(name, world):
-    file = open(name + '.scw', 'wb')
-    world.toTag().write(file)
-    file.close()
-    
