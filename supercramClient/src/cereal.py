@@ -85,7 +85,9 @@ class TagFloat(Tag):
         return "TagFloat("+str(self.data)+")"
 
 class TagArray(Tag):
-    def __init__(self, arr=[]):
+    def __init__(self, arr=None):
+        if(arr==None):
+            arr = []
         self.data = arr
         self.id = 6
     def read(self, dataStream):
@@ -141,7 +143,7 @@ class DataInputStream:
         for l in range(length):
             c = self.readChar()
             s += c
-        return s
+        return str(s)
         #return self.unpack(str(length) + 's', length)
     def readTag(self):
         return readTag(self)

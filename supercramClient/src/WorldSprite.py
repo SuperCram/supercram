@@ -3,12 +3,13 @@ WorldSprite superclass, represents world collision boxes, trigger zones
 '''
 import pygame,cereal
 
+
 class WorldSprite():
     def __init__(self, left, top, width, height):
         self.collisions = True
         self.background = True
         self.trigger = False
-        self.image = ''
+        self.image = pygame.Surface((width, height))
         self.rect = pygame.Rect(left, top, width, height)
         self.params = {}
     def toTag(self):
@@ -19,6 +20,7 @@ class WorldSprite():
         sprite["collisions"] = cereal.TagBool(self.collisions)
         sprite["background"] = cereal.TagBool(self.background)
         sprite["trigger"] = cereal.TagBool(self.trigger)
+        sprite['image'] = cereal.TagString(pygame.image.tostring(self.image, 'RGBA'))
         tagParams = {}
         for param in self.params:
             tagParams[param] = cereal.TagString(self.params[param])
@@ -41,6 +43,7 @@ def tagToSprite(TAGMap):
     spr.background = spriteDict["background"].data
     spr.trigger = spriteDict["trigger"].data
     paramMap = spriteDict["params"].data
+    spr.image = pygame.image.fromstring(spriteDict['image'].data, (spr.rect.width, spr.rect.height), 'RGBA') 
     spr.params = {}
     for key in paramMap:
         spr.params[key] = paramMap[key].data

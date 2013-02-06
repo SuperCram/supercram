@@ -18,6 +18,9 @@ class Crate(Entity):
                     newWep = random.choice(const.weapons)
                 self.contents = newWep
                 self.momentum = [0,0]
-                ##########################################
-                self.rect.topleft = [500,200]
+                zone = random.choice(session.worlds[session.activeWorld].crateSpawnZones)
+                x = random.randint(zone[0], zone[1])
+                y = random.randint(zone[2], zone[3])
+                self.rect.center = [x,y]
+                
         

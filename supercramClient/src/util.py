@@ -1,4 +1,5 @@
 import cereal
+import pygame
 
 def toFile(name, tagmap):
     fileOut = open(name+'.scw', 'wb')
@@ -14,3 +15,7 @@ def fromFile(name):
     fileIn.close()
     return worldtag
     
+if __name__ == '__main__':
+    surf = pygame.Surface((800,600))
+    surf.fill((0,0,0))
+    pygame.draw.polygon(surf, (255,0,0), [(20, 50), (304, 120), (406, 004)])

@@ -31,7 +31,7 @@ class World():
         worldTag.data["spirtes"] = sprites
         worldTag.data["playerSpawns"] = tagPlayerSpawns
         worldTag.data["mobSpawns"] = tagMobSpawns
-        worldTag.data["crateSpawnPoints"] = tagCrateSpawns
+        worldTag.data["crateSpawnZones"] = tagCrateSpawns
         worldTag.data["gravity"] = cereal.TagFloat(self.gravity)
         worldTag.data["enemySpawnDelay"] = cereal.TagInt(self.enemySpawnDelay)
         
@@ -113,7 +113,7 @@ def readWorld(tagMap):
     for tagMobSpawn in tagMobSpawns:
         world.mobSpawns.append([tagMobSpawn.data[0].data, tagMobSpawn.data[1].data])
         
-    tagCrateSpawnZones = tagMap["crateSpawnPoints"].data
+    tagCrateSpawnZones = tagMap["crateSpawnZones"].data
     for tagCrateSpawnZone in tagCrateSpawnZones:
         zoneAr = tagCrateSpawnZone.data
         world.crateSpawnZones.append([zoneAr[0].data, zoneAr[1].data, zoneAr[2].data, zoneAr[3].data])
