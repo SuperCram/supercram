@@ -1,11 +1,12 @@
 from Crate import Crate
 from Enemy import Enemy
 from Player import Player
-from World import World
+import World
 from WorldSprite import WorldSprite
+import util
 import Session
 import pygame
-
+'''
 size = (800, 600)
 
 player = Player()
@@ -59,6 +60,12 @@ world.players = [player]
 world.crates = [crate]
 world.gravity = 2
 world.mobSpawns = [[100, 100]]
+
+util.toFile('test', world.toTag())
+'''
+
+worldtag = util.fromFile('test')
+world = World.readWorld(worldtag)
 
 Session = Session.Session()
 Session.worlds.append(world)

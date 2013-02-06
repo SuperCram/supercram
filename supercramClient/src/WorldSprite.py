@@ -35,13 +35,13 @@ class WorldSprite():
 def tagToSprite(TAGMap):
     spriteDict = TAGMap.data
     spr = WorldSprite(0,0,0,0)
-    rect = spriteDict["aabb"].tags
-    spr.rect = pygame.Rect(rect[0].i, rect[1].i, rect[2].i, rect[3].i)
-    spr.collisions = spriteDict["collisions"].bool
-    spr.background = spriteDict["background"].bool
-    spr.trigger = spriteDict["trigger"].bool
+    rect = spriteDict["aabb"].data
+    spr.rect = pygame.Rect(rect[0].data, rect[1].data, rect[2].data, rect[3].data)
+    spr.collisions = spriteDict["collisions"].data
+    spr.background = spriteDict["background"].data
+    spr.trigger = spriteDict["trigger"].data
     paramMap = spriteDict["params"].data
     spr.params = {}
     for key in paramMap:
-        spr.params[key] = paramMap[key].s
+        spr.params[key] = paramMap[key].data
     return spr

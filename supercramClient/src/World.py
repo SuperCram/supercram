@@ -18,14 +18,14 @@ class World():
         #Player Spawns
         tagPlayerSpawns = cereal.TagArray()
         for point in self.playerSpawns:
-            tagPlayerSpawns.tags.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
+            tagPlayerSpawns.data.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
         
         tagMobSpawns = cereal.TagArray()
         for point in self.mobSpawns:
-            tagMobSpawns.tags.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
+            tagMobSpawns.data.append(cereal.TagArray([cereal.TagInt(point[0]), cereal.TagInt(point[1])]))
         tagCrateSpawns = cereal.TagArray()
         for zone in self.crateSpawnZones:
-            tagCrateSpawns.tags.append(cereal.TagArray([cereal.TagInt(zone.top), cereal.TagInt(zone.left), cereal.TagInt(zone.width), cereal.TagInt(zone.height)]))
+            tagCrateSpawns.data.append(cereal.TagArray([cereal.TagInt(zone[0]), cereal.TagInt(zone[1]), cereal.TagInt(zone[2]), cereal.TagInt(zone[3])]))
         
         worldTag = cereal.TagMap()
         worldTag.data["spirtes"] = sprites
@@ -33,7 +33,6 @@ class World():
         worldTag.data["mobSpawns"] = tagMobSpawns
         worldTag.data["crateSpawnPoints"] = tagCrateSpawns
         worldTag.data["gravity"] = cereal.TagFloat(self.gravity)
-        worldTag.data["size"] = cereal.TagArray([cereal.TagInt(self.size[0]), cereal.TagInt(self.size[1])])
         worldTag.data["enemySpawnDelay"] = cereal.TagInt(self.enemySpawnDelay)
         
         return worldTag
@@ -95,7 +94,7 @@ class World():
 def readWorld(tagMap):
     world = World()
     tagMap = tagMap.data
-    tagSpriteArray = tagMap["spirtes"].tags
+    tagSpriteArray = tagMap["spirtes"].data
     for tagSprite in tagSpriteArray:
         spr = WorldSprite.tagToSprite(tagSprite)
         if(spr.background):
@@ -106,25 +105,21 @@ def readWorld(tagMap):
             world.clips.append(spr)
         if(spr.trigger):
             world.triggers.append(spr)
-    tagPlayerSpawns = tagMap["playerSpawns"].tags
+    tagPlayerSpawns = tagMap["playerSpawns"].data
     for tagPlayerSpawn in tagPlayerSpawns:
-        world.playerSpawns.append([tagPlayerSpawn.tags[0].i, tagPlayerSpawn.tags[1].i])
+        world.playerSpawns.append([tagPlayerSpawn.data[0].data, tagPlayerSpawn.data[1].data])
     
-    tagMobSpawns = tagMap["mobSpawns"].tags
+    tagMobSpawns = tagMap["mobSpawns"].data
     for tagMobSpawn in tagMobSpawns:
-        world.mobSpawns.append([tagMobSpawn.tags[0].i, tagMobSpawn.tags[1].i])
+        world.mobSpawns.append([tagMobSpawn.data[0].data, tagMobSpawn.data[1].data])
         
-    tagMobSpawns = tagMap["mobSpawns"].tags
-    for tagMobSpawn in tagMobSpawns:
-        world.mobSpawns.append([tagMobSpawn.tags[0].i, tagMobSpawn.tags[1].i])
-        
-    tagCrateSpawnZones = tagMap["crateSpawnPoints"].tags
+    tagCrateSpawnZones = tagMap["crateSpawnPoints"].data
     for tagCrateSpawnZone in tagCrateSpawnZones:
-        zoneAr = tagCrateSpawnZone.tags
-        world.crateSpawnZones.append(pygame.Rect(zoneAr[0].i, zoneAr[1].i, zoneAr[2].i, zoneAr[3].i))
+        zoneAr = tagCrateSpawnZone.data
+        world.crateSpawnZones.append([zoneAr[0].data, zoneAr[1].data, zoneAr[2].data, zoneAr[3].data])
     
-    world.gravity = tagMap["gravity"].float
-    world.enemySpawnDelay = tagMap["enemySpawnDelay"].i
+    world.gravity = tagMap["gravity"].data
+    world.enemySpawnDelay = tagMap["enemySpawnDelay"].data
     return world
 if __name__=="__main__":
     world = World()

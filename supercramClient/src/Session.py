@@ -16,6 +16,7 @@ class Session():
         1 - Menu
         2 - Playing
         3 - Paused
+        4 - Game Over
         '''
         self.worlds = []
         self.activeWorld = 0

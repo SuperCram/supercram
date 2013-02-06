@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 from struct import pack,unpack
 def readTag(dataStream, read=True):
     tagID = int(dataStream.readByte())
@@ -211,16 +209,3 @@ if(__name__=="__main__"):
     testFile.close()
     
     print newTag
-    
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> branch 'master' of http://github.com/SuperCram/supercram.git
