@@ -1,5 +1,5 @@
 #Global constants
-import math
+import math, pygame
 from Weapon import *
 
 # Movement
@@ -10,12 +10,18 @@ maxJump = 100
 enemySpeed = 8
 rageSpeed = 16
 
+#Colours
+white = (255,255,255)
+red = (255,0,0)
+
 # Weapon List
 weapons = [RocketLauncher(), MachineGun(), DualPistols(), DiskGun(), GrenadeLauncher()]
 
-# Colours
+#Enemy Params
+enemy0Surf = pygame.Surface((32,32))
+enemy0Surf.fill(red)
+enemyParams = [(0, 5, (32,32), enemy0Surf)]
 
-white = (255,255,255)
 
 def distance(a, b):
     distX = math.fabs(a[0] - b[0])

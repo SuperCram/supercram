@@ -2,7 +2,7 @@
 Crate subclass extends Entity
 '''
 from Entity import Entity
-import pygame, const, random
+import const, random
 
 class Crate(Entity):
     def __init__(self):

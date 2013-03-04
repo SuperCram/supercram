@@ -6,13 +6,16 @@ from Entity import Entity
 import const
 
 class Enemy(Entity):
-    def __init__(self):
+    def __init__(self, params, pos):
         Entity.__init__(self)
-        self.type = 0
+        self.type = params[0]
         self.rage = False
-        self.health = 1
+        self.health = params[1]
         self.dead = False
         self.facingRight = True
+        self.rect.size = params[2]
+        self.rect.midtop = pos
+        self.image = params[3]
     def update(self, session):
         
 #Check if colliding with a projectile ie has been hit, and deals damage accordingly

@@ -1,16 +1,14 @@
 from Crate import Crate
-from Enemy import Enemy
+#from Enemy import Enemy
 from Player import Player
 import Session
 import World
-from WorldSprite import WorldSprite
+#from WorldSprite import WorldSprite
 import pygame
 import util
 
-print 'imports done, setting size' 
 size = (800, 600)
 
-print 'init player' 
 player = Player()
 player.rect.topleft = [400, 100]
 player.image = pygame.Surface((32,32))
@@ -18,17 +16,15 @@ player.image.fill((0,0,255))
 player.rect.size = (32,32)
 player.prevRect.size = (32,32)
 
-print 'init crate'
 crate = Crate()
 crate.rect.topleft = [500, 200]
 crate.image = pygame.Surface((24,24))
 crate.image.fill((255,150,50))
 crate.rect.size = (24,24)
 
-print 'init font'
 font = pygame.font.Font(None, 32)
 
-print 'init world'
+'''print 'init world'
 world = World.World()
 
 print 'init worldsprites'
@@ -56,19 +52,19 @@ rightWall.image.fill((0,255,0))
 print 'populate world'
 world.backgrounds = [floor, leftWall, rightWall, roof, wall]
 world.clips = [floor, leftWall, rightWall, roof, wall]
-world.players = [player]
-world.crates = [crate]
-world.crateSpawnZones = [[32, 768, 100, 400]]
+world.crateSpawnZones = [[100, 700, 100, 400]]
 world.gravity = 2
 world.mobSpawns = [[100, 100]]
 
 print 'save world to disk'
-util.toFile('test', world.toTag())
+util.toFile('test', world.toTag())'''
 
-print 'loading from file'
+print 'loading world from file'
 worldtag = util.fromFile('test')
 world = World.readWorld(worldtag)
 
+world.players = [player]
+world.crates = [crate]
 Session = Session.Session()
 Session.worlds.append(world)
 
@@ -77,7 +73,7 @@ while 1:
     Session.update()
 
 
- 
+
 '''
     world.buildDrawList()
     world.buildEntList()

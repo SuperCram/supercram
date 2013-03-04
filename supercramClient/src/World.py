@@ -61,7 +61,7 @@ class World():
         self.eList = []
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
         self.gravity = 600
-        self.enemySpawnDelay = 4000
+        self.enemySpawnDelay = 6000
         self.lastEnemySpawn = 0
     def __repr__(self):
         s = ""
@@ -82,11 +82,10 @@ class World():
                 rectLs.append((e.rect.top, e.rect.left, e.rect.width, e.rect.height))
                 rectLs.append((e.prevRect.top, e.prevRect.left, e.prevRect.width, e.prevRect.height))
         return rectLs
-    def buildDrawList(self):
-        self.drawList = [self.backgrounds, self.players, self.enemies, self.effects, self.projectiles, self.crates, self.foregrounds]
     def buildEntList(self):
         self.entList = [self.players, self.enemies, self.effects, self.projectiles, self.crates]
     def draw(self, screen):
+        self.drawList = [self.backgrounds, self.players, self.enemies, self.effects, self.projectiles, self.crates, self.foregrounds]
         for ls in self.drawList:
             for e in ls:
                 screen.blit(e.image, e.rect)

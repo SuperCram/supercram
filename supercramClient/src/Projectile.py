@@ -100,7 +100,7 @@ class Grenade(Projectile):
             prevMom = []
             for i in self.momentum:
                 prevMom.append(i)
-            collisions = Projectile.update(self, session.worlds[session.activeWorld])
+            collisions = Projectile.update(self, session)
             if collisions[1]:
                 self.momentum[1] = -prevMom[1]*0.6
                 self.momentum[0] *= 0.75

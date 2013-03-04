@@ -16,6 +16,8 @@ def fromFile(name):
     return worldtag
     
 if __name__ == '__main__':
+    
     surf = pygame.Surface((800,600))
     surf.fill((0,0,0))
-    pygame.draw.polygon(surf, (255,0,0), [(20, 50), (304, 120), (406, 004)])
+    pygame.draw.polygon(surf, (255,0,0), [(20, 50), (304, 530), (700, 004)])
+    pygame.image.save(surf, 'dummy.bmp')

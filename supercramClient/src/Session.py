@@ -2,10 +2,13 @@
 Session Superclass
 '''
 
+from pygame.locals import *
 import const
+import Enemy
 import pygame
 import sys
-from pygame.locals import *
+import time
+import random
 
 class Session():
     def __init__(self):
@@ -15,8 +18,9 @@ class Session():
         0 - Init
         1 - Menu
         2 - Playing
-        3 - Paused
-        4 - Game Over
+        3 - Multiplayer
+        4 - Paused
+        5 - Game Over
         '''
         self.worlds = []
         self.activeWorld = 0
@@ -30,12 +34,15 @@ class Session():
         self.displayFPSCounter = False
         self.devCon = False
         
+        self.spawnEnemies = True
+        self.spawnCrates = True
+        
         
     def update(self):
         if self.mode == 2:
             world = self.worlds[self.activeWorld]
+            time = pygame.time.get_ticks()
             
-            world.buildDrawList()
             world.buildEntList()
             
             self.screen.fill(const.white)
@@ -48,11 +55,21 @@ class Session():
                 fpsRect.topleft = [10,10]
                 self.screen.blit(fpsSurf, fpsRect)
                 
+            if self.spawnEnemies:
+                if time > world.lastEnemySpawn + world.enemySpawnDelay:
+                    for spawn in world.mobSpawns:
+                        world.enemies.append(Enemy.Enemy(random.choice(const.enemyParams), spawn))
+                        world.lastEnemySpawn = time
+            
+                
             world.eList = pygame.event.get()
             for e in world.eList:
-                if e.type == KEYDOWN and e.key == K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                if e.type == KEYDOWN:
+                    if e.key == K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+                    elif e.key == K_p:
+                        time.sleep(2)
                 if e.type == QUIT:
                     pygame.quit()
                     sys.exit()
