@@ -106,12 +106,11 @@ def readWorld(tagMap):
             world.triggers.append(spr)
     tagPlayerSpawns = tagMap["playerSpawns"].data
     for tagPlayerSpawn in tagPlayerSpawns:
-        world.playerSpawns.append([tagPlayerSpawn.data[0].data, tagPlayerSpawn.data[1].data])
-    
+        world.playerSpawns.append([((tagPlayerSpawn.data>>16)&65535)-400, ((tagPlayerSpawn.data>>16)&65535)-400])
     tagMobSpawns = tagMap["mobSpawns"].data
     for tagMobSpawn in tagMobSpawns:
-        world.mobSpawns.append([tagMobSpawn.data[0].data, tagMobSpawn.data[1].data])
-        
+        world.mobSpawns.append([((tagMobSpawn.data>>16)&65535)-400, ((tagMobSpawn.data>>16)&65535)-400])
+    
     tagCrateSpawnZones = tagMap["crateSpawnZones"].data
     for tagCrateSpawnZone in tagCrateSpawnZones:
         zoneAr = tagCrateSpawnZone.data
