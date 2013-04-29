@@ -39,11 +39,17 @@ def tagToSprite(TAGMap):
     spr = WorldSprite(0,0,0,0)
     rect = spriteDict["aabb"].data
     spr.rect = pygame.Rect(rect[0].data, rect[1].data, rect[2].data, rect[3].data)
-    spr.collisions = spriteDict["collisions"].data
-    spr.background = spriteDict["background"].data
-    spr.trigger = spriteDict["trigger"].data
+    
+    data = spriteDict["data"].data
+    
+    spr.collisions = (data&8)==8;
+    spr.background = (data&2)==2;
+    spr.trigger = (data&16)==16;
+    
     paramMap = spriteDict["params"].data
-    spr.image = pygame.image.fromstring(spriteDict['image'].data, (spr.rect.width, spr.rect.height), 'RGBA') 
+    #spr.image = pygame.image.fromstring(spriteDict['image'].data, (spr.rect.width, spr.rect.height), 'RGBA')
+    spr.image = pygame.Surface((rect[2].data, rect[3].data))
+    spr.image.fill((0,255,0))
     spr.params = {}
     for key in paramMap:
         spr.params[key] = paramMap[key].data
